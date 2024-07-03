@@ -1,8 +1,15 @@
-# React + Vite
+# Connect Four Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend for the Connect Four game built with React and Vite. Backend uses Express, MongoDB, and Node.js.
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js (v14 or higher)
+- npm or yarn
+
+## Setup
+
+Run the following script to clone the repo, install dependencies, and start the dev server.
+
+```sh
+./setup.sh
