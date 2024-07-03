@@ -1,5 +1,4 @@
-# Connect Four Frontend
-
+# lms-frontend
 Frontend for the Connect Four game built with React and Vite. Backend uses Express, MongoDB, and Node.js.
 
 ## Prerequisites
