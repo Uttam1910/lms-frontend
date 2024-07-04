@@ -15,9 +15,9 @@ body {
   font-family: 'Inter', sans-serif; /* Make sure to include a suitable font */
   margin: 0;
   padding: 0;
-  line-height: 1.5;
+  /* line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale; */
 }
 
 /* a {
