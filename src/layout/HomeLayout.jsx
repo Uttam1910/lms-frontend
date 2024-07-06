@@ -1,13 +1,24 @@
 import React, { useState } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../redux/slice/authSlice';
 import Footer from '../components/Footer';
 
 const HomeLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const role = useSelector((state) => state.auth.role);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login');
   };
 
   return (
@@ -33,8 +44,15 @@ const HomeLayout = () => {
           <NavLink to="/about" className="hover:bg-gray-700 p-2 rounded" onClick={toggleSidebar}>About</NavLink>
           <NavLink to="/contact" className="hover:bg-gray-700 p-2 rounded" onClick={toggleSidebar}>Contact</NavLink>
           <NavLink to="/courses" className="hover:bg-gray-700 p-2 rounded" onClick={toggleSidebar}>Courses</NavLink>
-          <NavLink to="/login" className="hover:bg-gray-700 p-2 rounded" onClick={toggleSidebar}>Login</NavLink>
-          <NavLink to="/signup" className="hover:bg-gray-700 p-2 rounded" onClick={toggleSidebar}>Sign Up</NavLink>
+          {!isLoggedIn && (
+            <>
+              <NavLink to="/login" className="hover:bg-gray-700 p-2 rounded" onClick={toggleSidebar}>Login</NavLink>
+              <NavLink to="/signup" className="hover:bg-gray-700 p-2 rounded" onClick={toggleSidebar}>Sign Up</NavLink>
+            </>
+          )}
+          {isLoggedIn && (
+            <button onClick={handleLogout} className="hover:bg-gray-700 p-2 rounded text-left">Logout</button>
+          )}
         </nav>
       </div>
 
