@@ -7,6 +7,7 @@ import Contact from './pages/Contact';
 import Courses from './pages/Courses';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
