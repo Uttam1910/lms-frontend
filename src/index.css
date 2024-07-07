@@ -9,6 +9,9 @@
 /* Import Tailwind utilities */
 @tailwind utilities;
 
+@import 'react-responsive-carousel/lib/styles/carousel.min.css';
+
+
 /* Custom global styles */
 body {
   font-family: 'Inter', sans-serif;
