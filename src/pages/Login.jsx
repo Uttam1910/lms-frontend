@@ -81,7 +81,6 @@
 // export default Login;
 
 
-
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
@@ -100,8 +99,10 @@ const Login = () => {
     try {
       const result = await dispatch(loginUser(data));
       if (result.payload && result.payload.user) {
-        await dispatch(fetchUserProfile(result.payload.user.id));
+        toast.success('Login successful');
         navigate('/');
+      } else {
+        throw new Error('Login failed');
       }
     } catch (error) {
       if (error.message) {
