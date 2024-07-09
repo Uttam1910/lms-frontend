@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import NotFound from './pages/NotFound';
 import CourseDetail from './pages/Courses/CourseDetail'; 
+import AccessDenied from './pages/AccessDenied'; 
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="courses/:courseId" element={<CourseDetail />} />
         <Route path="login" element={<Login />} />
         <Route path="Signup" element={<Signup />} />
+        <Route path="*" element={<AccessDenied />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
