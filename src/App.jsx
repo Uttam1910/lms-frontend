@@ -4,7 +4,7 @@ import HomeLayout from './layout/HomeLayout';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
-import Courses from './pages/Courses';
+import CourseList from './pages/Courses/CourseList';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import NotFound from './pages/NotFound';
@@ -16,7 +16,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
-        <Route path="courses" element={<Courses />} />
+        <Route path="/courses" element={<CourseList />} />
         <Route path="login" element={<Login />} />
         <Route path="Signup" element={<Signup />} />
       </Route>
