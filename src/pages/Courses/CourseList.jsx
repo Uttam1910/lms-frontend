@@ -2,24 +2,26 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCourses } from '../../redux/slice/courseSlice';
-import CourseCard from './CourseCard';
+import CourseCard from '../../components/CourseCard.jsx';
 
 const CourseList = () => {
   const dispatch = useDispatch();
-  const { courses, loading, error } = useSelector((state) => state.courses);
+  const courses = useSelector((state) => state.courses.courses);
+  const loading = useSelector((state) => state.courses.loading);
+  const error = useSelector((state) => state.courses.error);
 
   useEffect(() => {
     dispatch(fetchCourses());
   }, [dispatch]);
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Courses</h1>
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Courses</h1>
+      {loading && <p className="text-center text-gray-500">Loading...</p>}
+      {error && <p className="text-center text-red-500">Error: {error}</p>}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {courses.map((course) => (
-          <CourseCard key={course._id} course={course} />
+          <CourseCard key={course.id} course={course} />
         ))}
       </div>
     </div>
@@ -27,4 +29,3 @@ const CourseList = () => {
 };
 
 export default CourseList;
-
