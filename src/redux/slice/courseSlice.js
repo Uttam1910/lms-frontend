@@ -21,6 +21,12 @@ export const fetchCourses = createAsyncThunk(
   }
 );
 
+// Fetch course by ID
+export const fetchCourseById = createAsyncThunk('courses/fetchCourseById', async (courseId) => {
+  const response = await axios.get(`/api/courses/${courseId}`);
+  return response.data;
+});
+
 const courseSlice = createSlice({
   name: 'courses',
   initialState,
@@ -39,6 +45,18 @@ const courseSlice = createSlice({
         state.loading = false;
         state.error = action.payload || 'Failed to fetch courses';
         toast.error(state.error);
+      })
+      .addCase(fetchCourseById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchCourseById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentCourse = action.payload;
+      })
+      .addCase(fetchCourseById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       });
   },
 });
