@@ -43,6 +43,7 @@ const Signup = () => {
               {...register('username', { required: true, minLength: 3 })}
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
               placeholder="Username"
+              autoComplete="username"
             />
             {errors.username && errors.username.type === 'required' && (
               <p className="text-red-500">Username is required.</p>
@@ -60,6 +61,7 @@ const Signup = () => {
               })}
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
               placeholder="Email"
+              autoComplete="email"
             />
             {errors.email && errors.email.type === 'required' && (
               <p className="text-red-500">Email is required.</p>
@@ -74,6 +76,7 @@ const Signup = () => {
               {...register('password', { required: true, minLength: 6 })}
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
               placeholder="Password"
+              autoComplete="new-password"
             />
             {errors.password && errors.password.type === 'required' && (
               <p className="text-red-500">Password is required.</p>
@@ -86,6 +89,7 @@ const Signup = () => {
             <select
               {...register('role')}
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+              defaultValue="student"
             >
               <option value="student">Student</option>
               <option value="admin">Admin</option>

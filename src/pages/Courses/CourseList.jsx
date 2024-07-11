@@ -1,8 +1,8 @@
 // src/pages/Courses/CourseList.jsx
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchCourses } from '../../redux/slice/courseSlice';
-import CourseCard from '../../components/CourseCard.jsx';
+import CourseCard from '../../components/CourseCard';
 
 const CourseList = () => {
   const dispatch = useDispatch();
@@ -16,12 +16,11 @@ const CourseList = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Courses</h1>
-      {loading && <p className="text-center text-gray-500">Loading...</p>}
-      {error && <p className="text-center text-red-500">Error: {error}</p>}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error}</p>}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {courses.map((course) => (
-          <CourseCard key={course.id} course={course} />
+          <CourseCard key={course._id} course={course} />
         ))}
       </div>
     </div>

@@ -1,49 +1,13 @@
-// // src/pages/Courses/CourseDetail.jsx
-// import React, { useEffect } from 'react';
-// import { useParams } from 'react-router-dom';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { fetchCourseById } from '../../redux/slice/courseSlice';
-
-// const CourseDetail = () => {
-//   const { courseId } = useParams();
-//   const dispatch = useDispatch();
-//   const course = useSelector((state) => state.courses.currentCourse);
-//   const loading = useSelector((state) => state.courses.loading);
-//   const error = useSelector((state) => state.courses.error);
-
-//   useEffect(() => {
-//     dispatch(fetchCourseById(courseId));
-//   }, [dispatch, courseId]);
-
-//   return (
-//     <div className="container mx-auto px-4 py-8">
-//       {loading && <p>Loading...</p>}
-//       {error && <p>Error: {error}</p>}
-//       {course && (
-//         <div>
-//           <img src={course.thumbnail.secure_url} alt={course.title} className="w-full h-64 object-cover rounded-md mb-4" />
-//           <h1 className="text-3xl font-bold mb-4">{course.title}</h1>
-//           <p className="text-gray-700 mb-4">{course.description}</p>
-//           {/* Additional course details here */}
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default CourseDetail;
-
-
 // src/pages/Courses/CourseDetail.jsx
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import { fetchCourseById } from '../../redux/slice/courseSlice';
 
 const CourseDetail = () => {
   const { courseId } = useParams();
   const dispatch = useDispatch();
-  const course = useSelector((state) => state.courses.currentCourse);
+  const course = useSelector((state) => state.courses.course);
   const loading = useSelector((state) => state.courses.loading);
   const error = useSelector((state) => state.courses.error);
 
@@ -51,16 +15,32 @@ const CourseDetail = () => {
     dispatch(fetchCourseById(courseId));
   }, [dispatch, courseId]);
 
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
     <div className="container mx-auto px-4 py-8">
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
       {course && (
         <div>
-          <img src={course.thumbnail.secure_url} alt={course.title} className="w-full h-64 object-cover rounded-md mb-4" />
-          <h1 className="text-3xl font-bold mb-4">{course.title}</h1>
-          <p className="text-gray-700 mb-4">{course.description}</p>
-          {/* Additional course details here */}
+          <img src={course.thumbnail.secure_url} alt={course.title} className="w-full h-64 object-cover mb-4" />
+          <h2 className="text-3xl font-semibold mb-4">{course.title}</h2>
+          <p className="text-gray-600 mb-4">{course.description}</p>
+          <div className="text-gray-800 font-bold">Category: {course.category}</div>
+          <div className="mt-4">
+            <h3 className="text-2xl font-semibold mb-2">Lectures</h3>
+            {course.lectures.length > 0 ? (
+              <ul className="list-disc list-inside">
+                {course.lectures.map((lecture, index) => (
+                  <li key={index}>
+                    <div className="font-semibold">{lecture.title}</div>
+                    <p>{lecture.description}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No lectures available.</p>
+            )}
+          </div>
         </div>
       )}
     </div>
