@@ -1,8 +1,10 @@
 // src/pages/Courses/CourseDetail.jsx
-import React, { useEffect } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchCourseById } from '../../redux/slice/courseSlice';
+import { toast } from 'react-hot-toast';
 
 const CourseDetail = () => {
   const { courseId } = useParams();
@@ -16,7 +18,10 @@ const CourseDetail = () => {
   }, [dispatch, courseId]);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (error) {
+    toast.error(error);
+    return <p>Error: {error}</p>;
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -48,3 +53,4 @@ const CourseDetail = () => {
 };
 
 export default CourseDetail;
+  
