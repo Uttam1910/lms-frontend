@@ -1,16 +1,18 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import HomeLayout from './layout/HomeLayout';
-import Home from './pages/Home';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import CourseList from './pages/Courses/CourseList';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import NotFound from './pages/NotFound';
-import CourseDetail from './pages/Courses/CourseDetail';
-import AccessDenied from './pages/AccessDenied'; 
-// import ErrorBoundary from './components/ErrorBoundary';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import HomeLayout from "./layout/HomeLayout";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import CourseList from "./pages/Courses/CourseList";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import NotFound from "./pages/NotFound";
+import CourseDetail from "./pages/Courses/CourseDetail";
+import AccessDenied from "./pages/AccessDenied";
+import RequireAuth from './components/auth/RequireAuth';
+import CreateCourse from './pages/Courses/CreateCourse'; 
+import Profile from './pages/Profile/Profile';
 
 function App() {
   return (
@@ -23,7 +25,16 @@ function App() {
         <Route path="courses/:courseId" element={<CourseDetail />} />
         <Route path="login" element={<Login />} />
         <Route path="Signup" element={<Signup />} />
-        
+        {/* <Route path="/profile" component={Profile} /> */}
+        <Route
+          path="/create-course"
+          element={
+            <RequireAuth roles={["admin"]}>
+              <CreateCourse />
+            </RequireAuth>
+          }
+        />
+        <Route path="profile" element={<RequireAuth roles={['student', 'admin']}><Profile /></RequireAuth>} />
       </Route>
       <Route path="#" element={<AccessDenied />} />
       <Route path="*" element={<NotFound />} />
@@ -32,4 +43,3 @@ function App() {
 }
 
 export default App;
-

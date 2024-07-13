@@ -26,7 +26,6 @@ export const registerUser = createAsyncThunk(
     try {
       const response = await axiosInstance.post('/users/register', userData);
       const { user, token } = response.data;
-      console.log('Token received during registration:', token);
       localStorage.setItem('token', token);
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('user', JSON.stringify(user));
@@ -44,7 +43,6 @@ export const loginUser = createAsyncThunk(
     try {
       const response = await axiosInstance.post('/users/login', userData);
       const { user, token } = response.data;
-      console.log('Token received during login:', token);
       localStorage.setItem('token', token);
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('user', JSON.stringify(user));
@@ -60,11 +58,22 @@ export const logoutUser = createAsyncThunk(
   'auth/logoutUser',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post('/users/logout');
+      await axiosInstance.post('/users/logout');
       localStorage.removeItem('token');
       localStorage.removeItem('isLoggedIn');
       localStorage.removeItem('user');
       localStorage.removeItem('role');
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const fetchUserProfile = createAsyncThunk(
+  'auth/fetchUserProfile',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get('/users/profile');
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -164,6 +173,21 @@ const authSlice = createSlice({
         state.error = action.payload || 'Logout failed. Please try again.';
         toast.error(
           action.payload?.message || 'Logout failed. Please try again.'
+        );
+      })
+      .addCase(fetchUserProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserProfile.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(fetchUserProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Failed to fetch user profile';
+        toast.error(
+          action.payload?.message || 'Failed to fetch user profile. Please try again.'
         );
       });
   },

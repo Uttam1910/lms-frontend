@@ -16,6 +16,11 @@ const Login = () => {
     try {
       const result = await dispatch(loginUser(data));
       if (result.payload && result.payload.user) {
+        if (result.payload.role === 'admin') {
+          toast.success('Admin login successful');
+        } else {
+          toast.success('User login successful');
+        }
         navigate('/');
       }
     } catch (error) {
@@ -72,8 +77,8 @@ const Login = () => {
 
         <div className="mt-4 text-center">
           <span className="text-sm text-gray-600">Don't have an account?</span>{' '}
-          <Link to="/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
-            Sign Up
+          <Link to="/signup" className="text-sm text-indigo-600 hover:underline">
+            Sign up
           </Link>
         </div>
       </div>

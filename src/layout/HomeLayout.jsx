@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
@@ -16,7 +15,6 @@ const HomeLayout = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
 
   const handleLogout = async () => {
     await dispatch(logoutUser());
@@ -56,6 +54,9 @@ const HomeLayout = () => {
           {isLoggedIn && (
             <>
               <NavLink to="/profile" className="hover:bg-gray-700 p-2 rounded" onClick={toggleSidebar}>Profile</NavLink>
+              {role === 'admin' && (
+                <NavLink to="/create-course" className="hover:bg-gray-700 p-2 rounded" onClick={toggleSidebar}>Create Course</NavLink>
+              )}
               <button onClick={handleLogout} className="hover:bg-gray-700 p-2 rounded text-left">Logout</button>
             </>
           )}
