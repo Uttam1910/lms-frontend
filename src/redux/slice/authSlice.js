@@ -2,14 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../helpers/axiosInstance';
 import { toast } from 'react-hot-toast';
 
-const initialState = {
-  isLoggedIn: localStorage.getItem('isLoggedIn') === 'true',
-  role: tryParseJson(localStorage.getItem('role')),
-  user: tryParseJson(localStorage.getItem('user')),
-  loading: false,
-  error: null,
-};
-
 // Helper function to parse JSON safely
 function tryParseJson(jsonString) {
   try {
@@ -20,38 +12,26 @@ function tryParseJson(jsonString) {
   }
 }
 
-// export const registerUser = createAsyncThunk(
-//   'auth/registerUser',
-//   async (userData, { rejectWithValue }) => {
-//     try {
-//       const response = await axiosInstance.post('/users/register', userData);
-//       return response.data;
-//     } catch (error) {
-//       return rejectWithValue(error.response?.data || error.message);
-//     }
-//   }
-// );
-
-// export const loginUser = createAsyncThunk(
-//   'auth/loginUser',
-//   async (userData, { rejectWithValue }) => {
-//     try {
-//       const response = await axiosInstance.post('/users/login', userData);
-//       return response.data;
-//     } catch (error) {
-//       return rejectWithValue(error.response?.data || error.message);
-//     }
-//   }
-// );
+const initialState = {
+  isLoggedIn: localStorage.getItem('isLoggedIn') === 'true',
+  role: localStorage.getItem('role') || null,
+  user: tryParseJson(localStorage.getItem('user')),
+  loading: false,
+  error: null,
+};
 
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post('/users/register', userData);
-      console.log('Token received during registration:', response.data.token);
-      localStorage.setItem('token', response.data.token);
-      return response.data;
+      const { user, token } = response.data;
+      console.log('Token received during registration:', token);
+      localStorage.setItem('token', token);
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('role', user.role);
+      return { user, token, role: user.role };
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
@@ -63,21 +43,28 @@ export const loginUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post('/users/login', userData);
-      console.log('Token received during login:', response.data.token);
-      localStorage.setItem('token', response.data.token);
-      return response.data;
+      const { user, token } = response.data;
+      console.log('Token received during login:', token);
+      localStorage.setItem('token', token);
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('role', user.role);
+      return { user, token, role: user.role };
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
 
-
 export const logoutUser = createAsyncThunk(
   'auth/logoutUser',
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post('/users/logout');
+      localStorage.removeItem('token');
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('user');
+      localStorage.removeItem('role');
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -95,7 +82,7 @@ const authSlice = createSlice({
       state.role = action.payload.role;
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('user', JSON.stringify(action.payload.user));
-      localStorage.setItem('role', JSON.stringify(action.payload.role));
+      localStorage.setItem('role', action.payload.role);
     },
     logout(state) {
       state.isLoggedIn = false;
@@ -106,7 +93,6 @@ const authSlice = createSlice({
       localStorage.removeItem('role');
     },
   },
-
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
@@ -120,17 +106,19 @@ const authSlice = createSlice({
         state.role = action.payload.role;
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('user', JSON.stringify(action.payload.user));
-        localStorage.setItem('role', JSON.stringify(action.payload.role));
-        toast.success('Registration successful');
+        localStorage.setItem('role', action.payload.role);
+        toast.success(
+          action.payload.role === 'admin'
+            ? 'Admin registration successful'
+            : 'User registration successful'
+        );
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Something went wrong';
-        if (action.payload && action.payload.message) {
-          toast.error(action.payload.message);
-        } else {
-          toast.error('Registration failed. Please try again.');
-        }
+        toast.error(
+          action.payload?.message || 'Registration failed. Please try again.'
+        );
       })
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
@@ -143,17 +131,19 @@ const authSlice = createSlice({
         state.role = action.payload.role;
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('user', JSON.stringify(action.payload.user));
-        localStorage.setItem('role', JSON.stringify(action.payload.role));
-        toast.success('Login successful');
+        localStorage.setItem('role', action.payload.role);
+        toast.success(
+          action.payload.role === 'admin'
+            ? 'Admin login successful'
+            : 'User login successful'
+        );
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Login failed. Please try again.';
-        if (action.payload && action.payload.message) {
-          toast.error(action.payload.message);
-        } else {
-          toast.error('Login failed. Please try again.');
-        }
+        toast.error(
+          action.payload?.message || 'Login failed. Please try again.'
+        );
       })
       .addCase(logoutUser.pending, (state) => {
         state.loading = true;
@@ -172,11 +162,9 @@ const authSlice = createSlice({
       .addCase(logoutUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Logout failed. Please try again.';
-        if (action.payload && action.payload.message) {
-          toast.error(action.payload.message);
-        } else {
-          toast.error('Logout failed. Please try again.');
-        }
+        toast.error(
+          action.payload?.message || 'Logout failed. Please try again.'
+        );
       });
   },
 });
