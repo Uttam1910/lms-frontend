@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserProfile } from '../../redux/slice/authSlice';
 import { toast } from 'react-hot-toast';
-import { FaUserEdit } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaEdit, FaKey, FaImage } from 'react-icons/fa';
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const { user, error, loading } = useSelector((state) => state.auth);
+  const { user, error } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,63 +20,58 @@ const Profile = () => {
     }
   }, [error]);
 
-  const handleEditProfile = () => {
-    navigate('/edit-profile'); // This route should be defined in your routing configuration
-  };
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-4">Profile</h1>
-        {loading ? (
-          <p className="text-center">Loading...</p>
-        ) : user ? (
-          <div className="space-y-4">
-            <div className="flex justify-center">
-              <img
-                src={user.avatar.secureUrl}
-                alt="User Avatar"
-                className="w-32 h-32 rounded-full object-cover"
-              />
+    <div className="container mx-auto my-10 p-6 bg-white shadow-md rounded-lg max-w-3xl">
+      <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">Profile</h1>
+      {user ? (
+        <div className="flex flex-col items-center">
+          {user.avatar && user.avatar.secureUrl ? (
+            <img
+              src={user.avatar.secureUrl}
+              alt="User Avatar"
+              className="w-32 h-32 rounded-full mb-4 border-4 border-indigo-500"
+            />
+          ) : (
+            <div className="w-32 h-32 rounded-full mb-4 border-4 border-indigo-500 flex items-center justify-center text-gray-500">
+              No Avatar
             </div>
-            <div>
-              <p className="font-semibold text-gray-700">Name:</p>
-              <p className="text-gray-900">{user.username}</p>
-            </div>
-            <div>
-              <p className="font-semibold text-gray-700">Email:</p>
-              <p className="text-gray-900">{user.email}</p>
-            </div>
-            <div>
-              <p className="font-semibold text-gray-700">Role:</p>
-              <p className="text-gray-900">{user.role}</p>
-            </div>
-            <div>
-              <p className="font-semibold text-gray-700">Active:</p>
-              <p className="text-gray-900">{user.isActive ? 'Yes' : 'No'}</p>
-            </div>
-            <div>
-              <p className="font-semibold text-gray-700">Created At:</p>
-              <p className="text-gray-900">{new Date(user.createdAt).toLocaleString()}</p>
-            </div>
-            <div>
-              <p className="font-semibold text-gray-700">Updated At:</p>
-              <p className="text-gray-900">{new Date(user.updatedAt).toLocaleString()}</p>
-            </div>
-            <div className="flex justify-center">
-              <button
-                onClick={handleEditProfile}
-                className="flex items-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-              >
-                <FaUserEdit className="mr-2" />
-                Edit Profile
-              </button>
-            </div>
+          )}
+          <div className="text-center mb-4">
+            <p className="text-xl font-semibold text-gray-700 mb-2">Name: {user.username}</p>
+            <p className="text-lg text-gray-600 mb-2">Email: {user.email}</p>
+            <p className="text-md text-gray-500 mb-2">Role: {user.role}</p>
+            <p className="text-md text-gray-500 mb-2">Active: {user.isActive ? 'Yes' : 'No'}</p>
+            <p className="text-md text-gray-500 mb-2">
+              Created At: {new Date(user.createdAt).toLocaleString()}
+            </p>
+            <p className="text-md text-gray-500 mb-2">
+              Updated At: {new Date(user.updatedAt).toLocaleString()}
+            </p>
           </div>
-        ) : (
-          <p className="text-center text-red-500">Error loading profile</p>
-        )}
-      </div>
+          <div className="flex space-x-4 mt-4">
+            <Link
+              to="/edit-profile"
+              className="bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center"
+            >
+              <FaEdit className="mr-2" /> Edit Profile
+            </Link>
+            <Link
+              to="/change-password"
+              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 flex items-center"
+            >
+              <FaKey className="mr-2" /> Change Password
+            </Link>
+            <button
+              onClick={() => navigate('/update-avatar')}
+              className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center"
+            >
+              <FaImage className="mr-2" /> Update Avatar
+            </button>
+          </div>
+        </div>
+      ) : (
+        <p className="text-center text-gray-500">Loading...</p>
+      )}
     </div>
   );
 };

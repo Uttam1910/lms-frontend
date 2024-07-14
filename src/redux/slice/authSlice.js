@@ -81,6 +81,23 @@ export const fetchUserProfile = createAsyncThunk(
   }
 );
 
+// New async thunk for updating user avatar
+export const updateUserAvatar = createAsyncThunk(
+  'auth/updateUserAvatar',
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put('/users/profile/avatar', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -100,6 +117,12 @@ const authSlice = createSlice({
       localStorage.removeItem('isLoggedIn');
       localStorage.removeItem('user');
       localStorage.removeItem('role');
+    },
+    setUser(state, action) {
+      state.user = action.payload;
+    },
+    setError(state, action) {
+      state.error = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -189,9 +212,29 @@ const authSlice = createSlice({
         toast.error(
           action.payload?.message || 'Failed to fetch user profile. Please try again.'
         );
+      })
+      // Add cases for updateUserAvatar
+      .addCase(updateUserAvatar.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUserAvatar.fulfilled, (state, action) => {
+        state.loading = false;
+        if (state.user) {
+          state.user.avatar = action.payload;
+          localStorage.setItem('user', JSON.stringify(state.user));
+        }
+        toast.success('Avatar updated successfully');
+      })
+      .addCase(updateUserAvatar.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Avatar update failed. Please try again.';
+        toast.error(
+          action.payload?.message || 'Avatar update failed. Please try again.'
+        );
       });
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, setUser, setError } = authSlice.actions;
 export default authSlice.reducer;

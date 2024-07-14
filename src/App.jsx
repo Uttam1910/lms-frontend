@@ -13,6 +13,7 @@ import AccessDenied from "./pages/AccessDenied";
 import RequireAuth from './components/auth/RequireAuth';
 import CreateCourse from './pages/Courses/CreateCourse'; 
 import Profile from './pages/Profile/Profile';
+import UpdateAvatar from './pages/Profile/UpdateAvatar';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           }
         />
         <Route path="profile" element={<RequireAuth roles={['student', 'admin']}><Profile /></RequireAuth>} />
+        <Route path="/update-avatar" element={<RequireAuth roles={['student', 'admin']}><UpdateAvatar /></RequireAuth>} />
       </Route>
       <Route path="#" element={<AccessDenied />} />
       <Route path="*" element={<NotFound />} />
