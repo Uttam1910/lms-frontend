@@ -17,6 +17,7 @@ import UpdateAvatar from './pages/Profile/UpdateAvatar';
 import ProfileUpdate from './pages/Profile/ProfileUpdate'; // Corrected import path
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import ChangePassword from './pages/ChangePassword';
 
 function App() {
   return (
@@ -39,6 +40,11 @@ function App() {
         <Route path="profile" element={
           <RequireAuth roles={['student', 'admin']}>
             <Profile />
+          </RequireAuth>
+        } />
+         <Route path="/changepassword" element={
+          <RequireAuth roles={['student', 'admin']}>
+            <ChangePassword />
           </RequireAuth>
         } />
         <Route path="/update-avatar" element={
