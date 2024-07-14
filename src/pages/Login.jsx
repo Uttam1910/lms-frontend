@@ -12,7 +12,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
-    setLoading(true); 
+    setLoading(true);
     try {
       const result = await dispatch(loginUser(data));
       if (result.payload && result.payload.user) {
@@ -66,6 +66,12 @@ const Login = () => {
             {errors.password && <span className="text-red-500">Password is required</span>}
           </div>
 
+          <div className="flex justify-between items-center">
+            <Link to="/forgot-password" className="text-sm text-indigo-600 hover:underline">
+              Forgot Password?
+            </Link>
+          </div>
+
           <button
             type="submit"
             className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -73,7 +79,7 @@ const Login = () => {
           >
             {loading ? 'Logging in...' : 'Login'}
           </button>
-        </form>
+        </form> 
 
         <div className="mt-4 text-center">
           <span className="text-sm text-gray-600">Don't have an account?</span>{' '}

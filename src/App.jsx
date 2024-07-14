@@ -15,6 +15,8 @@ import CreateCourse from './pages/Courses/CreateCourse';
 import Profile from './pages/Profile/Profile';
 import UpdateAvatar from './pages/Profile/UpdateAvatar';
 import ProfileUpdate from './pages/Profile/ProfileUpdate'; // Corrected import path
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         <Route path="courses/:courseId" element={<CourseDetail />} />
         <Route path="login" element={<Login />} />
         <Route path="Signup" element={<Signup />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/resetpassword/:token" element={<ResetPassword />} />
         <Route path="/create-course" element={
           <RequireAuth roles={["admin"]}>
             <CreateCourse />
@@ -47,6 +51,7 @@ function App() {
             <ProfileUpdate />
           </RequireAuth>
         } />
+
       </Route>
       <Route path="#" element={<AccessDenied />} />
       <Route path="*" element={<NotFound />} />
