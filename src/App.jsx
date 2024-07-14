@@ -14,6 +14,7 @@ import RequireAuth from './components/auth/RequireAuth';
 import CreateCourse from './pages/Courses/CreateCourse'; 
 import Profile from './pages/Profile/Profile';
 import UpdateAvatar from './pages/Profile/UpdateAvatar';
+import ProfileUpdate from './pages/Profile/ProfileUpdate'; // Corrected import path
 
 function App() {
   return (
@@ -26,17 +27,26 @@ function App() {
         <Route path="courses/:courseId" element={<CourseDetail />} />
         <Route path="login" element={<Login />} />
         <Route path="Signup" element={<Signup />} />
-        {/* <Route path="/profile" component={Profile} /> */}
-        <Route
-          path="/create-course"
-          element={
-            <RequireAuth roles={["admin"]}>
-              <CreateCourse />
-            </RequireAuth>
-          }
-        />
-        <Route path="profile" element={<RequireAuth roles={['student', 'admin']}><Profile /></RequireAuth>} />
-        <Route path="/update-avatar" element={<RequireAuth roles={['student', 'admin']}><UpdateAvatar /></RequireAuth>} />
+        <Route path="/create-course" element={
+          <RequireAuth roles={["admin"]}>
+            <CreateCourse />
+          </RequireAuth>
+        } />
+        <Route path="profile" element={
+          <RequireAuth roles={['student', 'admin']}>
+            <Profile />
+          </RequireAuth>
+        } />
+        <Route path="/update-avatar" element={
+          <RequireAuth roles={['student', 'admin']}>
+            <UpdateAvatar />
+          </RequireAuth>
+        } />
+        <Route path="/update-profile" element={
+          <RequireAuth roles={['student', 'admin']}>
+            <ProfileUpdate />
+          </RequireAuth>
+        } />
       </Route>
       <Route path="#" element={<AccessDenied />} />
       <Route path="*" element={<NotFound />} />

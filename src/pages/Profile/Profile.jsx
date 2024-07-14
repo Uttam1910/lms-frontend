@@ -50,7 +50,7 @@ const Profile = () => {
           </div>
           <div className="flex space-x-4 mt-4">
             <Link
-              to="/edit-profile"
+              to="/update-profile"
               className="bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center"
             >
               <FaEdit className="mr-2" /> Edit Profile
