@@ -12,14 +12,14 @@ const CourseCard = ({ course }) => {
   return (
     <div 
       onClick={handleCardClick} 
-      className="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer transform transition duration-500 hover:scale-105"
+      className="bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer transform transition duration-500 hover:scale-105 hover:shadow-2xl"
     >
       <img 
         src={course.thumbnail.secure_url} 
         alt={course.title} 
         className="w-full h-48 object-cover" 
       />
-      <div className="p-4">
+      <div className="p-6">
         <h3 className="text-2xl font-semibold mb-2 text-gray-800 hover:text-indigo-600 transition duration-300">
           {course.title}
         </h3>

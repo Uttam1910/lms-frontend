@@ -1,4 +1,3 @@
-// src/pages/Contact.jsx
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -19,13 +18,13 @@ const Contact = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold text-center mb-12 text-gray-800">Contact Us</h1>
+    <div className="container mx-auto px-4 py-16 bg-gradient-to-r from-blue-50 to-indigo-50 min-h-screen">
+      <h1 className="text-5xl font-extrabold text-center mb-16 text-indigo-800">Contact Us</h1>
       
       <div className="flex flex-col md:flex-row md:space-x-10">
         {/* Contact Form */}
-        <div className="md:w-2/3 bg-white p-8 shadow-lg rounded-lg">
-          <h2 className="text-3xl font-semibold mb-6 text-gray-800">Get in Touch</h2>
+        <div className="md:w-2/3 bg-white p-10 shadow-2xl rounded-lg transform transition-transform hover:scale-105">
+          <h2 className="text-3xl font-bold mb-8 text-indigo-800">Get in Touch</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-lg font-medium text-gray-700">Name</label>
@@ -70,32 +69,32 @@ const Contact = () => {
         </div>
 
         {/* Contact Details */}
-        <div className="md:w-1/3 bg-white p-8 shadow-lg rounded-lg mt-10 md:mt-0">
-          <h2 className="text-3xl font-semibold mb-6 text-gray-800">Contact Information</h2>
-          <p className="text-gray-700 mb-6">If you have any questions, feel free to reach out to us using the form or through the contact information below:</p>
-          <div className="mb-6">
+        <div className="md:w-1/3 bg-white p-10 shadow-2xl rounded-lg mt-10 md:mt-0 transform transition-transform hover:scale-105">
+          <h2 className="text-3xl font-bold mb-8 text-indigo-800">Contact Information</h2>
+          <p className="text-gray-700 mb-8 leading-relaxed">If you have any questions, feel free to reach out to us using the form or through the contact information below:</p>
+          <div className="mb-8">
             <h3 className="text-lg font-medium text-gray-800">Address:</h3>
             <p className="text-gray-600">1234 Street Name, City, State, 56789</p>
           </div>
-          <div className="mb-6">
+          <div className="mb-8">
             <h3 className="text-lg font-medium text-gray-800">Phone:</h3>
             <p className="text-gray-600">(123) 456-7890</p>
           </div>
-          <div className="mb-6">
+          <div className="mb-8">
             <h3 className="text-lg font-medium text-gray-800">Email:</h3>
             <p className="text-gray-600">contact@example.com</p>
           </div>
-          <div className="flex space-x-6 mt-4">
-            <a href="https://facebook.com" className="text-gray-600 hover:text-gray-800 transition duration-300">
+          <div className="flex space-x-6 mt-6">
+            <a href="https://facebook.com" className="text-indigo-600 hover:text-indigo-800 transition duration-300">
               <FaFacebook size={30} />
             </a>
-            <a href="https://twitter.com" className="text-gray-600 hover:text-gray-800 transition duration-300">
+            <a href="https://twitter.com" className="text-indigo-600 hover:text-indigo-800 transition duration-300">
               <FaTwitter size={30} />
             </a>
-            <a href="https://linkedin.com" className="text-gray-600 hover:text-gray-800 transition duration-300">
+            <a href="https://linkedin.com" className="text-indigo-600 hover:text-indigo-800 transition duration-300">
               <FaLinkedin size={30} />
             </a>
-            <a href="https://instagram.com" className="text-gray-600 hover:text-gray-800 transition duration-300">
+            <a href="https://instagram.com" className="text-indigo-600 hover:text-indigo-800 transition duration-300">
               <FaInstagram size={30} />
             </a>
           </div>

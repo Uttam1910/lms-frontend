@@ -10,6 +10,7 @@ const CreateCourse = () => {
   const [category, setCategory] = useState('');
   const [thumbnail, setThumbnail] = useState(null);
   const [createdBy, setCreatedBy] = useState(''); // State for createdBy
+  const [thumbnailPreview, setThumbnailPreview] = useState(null); // State for thumbnail preview
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,6 +21,12 @@ const CreateCourse = () => {
       setCreatedBy(user.username); // Initialize createdBy with logged-in user's username
     }
   }, [user]);
+
+  const handleThumbnailChange = (e) => {
+    const file = e.target.files[0];
+    setThumbnail(file);
+    setThumbnailPreview(URL.createObjectURL(file)); // Create a preview URL
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,16 +48,16 @@ const CreateCourse = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h2 className="text-3xl font-semibold mb-4">Create Course</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="container mx-auto px-4 py-8 bg-gray-50 rounded-lg shadow-md">
+      <h2 className="text-3xl font-semibold mb-6 text-center text-gray-800">Create Course</h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label className="block text-sm font-medium text-gray-700">Title</label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             required
           />
         </div>
@@ -59,7 +66,7 @@ const CreateCourse = () => {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             required
           ></textarea>
         </div>
@@ -69,7 +76,7 @@ const CreateCourse = () => {
             type="text"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             required
           />
         </div>
@@ -77,10 +84,19 @@ const CreateCourse = () => {
           <label className="block text-sm font-medium text-gray-700">Thumbnail</label>
           <input
             type="file"
-            onChange={(e) => setThumbnail(e.target.files[0])}
-            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+            onChange={handleThumbnailChange}
+            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             required
           />
+          {thumbnailPreview && (
+            <div className="mt-4">
+              <img
+                src={thumbnailPreview}
+                alt="Thumbnail Preview"
+                className="w-32 h-32 object-cover rounded-md shadow-md"
+              />
+            </div>
+          )}
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">Created By</label>
@@ -88,7 +104,7 @@ const CreateCourse = () => {
             type="text"
             value={createdBy}
             readOnly
-            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             required
           />
         </div>
