@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { registerUser, login } from '../redux/slice/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { FaUser, FaEnvelope, FaLock, FaUserShield } from 'react-icons/fa';
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -38,11 +39,11 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="max-w-md w-full px-6 py-8 bg-white shadow-md overflow-hidden sm:rounded-lg">
-        <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Sign Up</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-purple-500 to-indigo-600">
+      <div className="max-w-md w-full px-8 py-10 bg-white shadow-lg rounded-lg">
+        <h2 className="text-3xl font-semibold text-center text-gray-800 mb-8">Sign Up</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="relative">
             <label htmlFor="username" className="block text-sm font-medium text-gray-700">
               Username
             </label>
@@ -50,13 +51,14 @@ const Signup = () => {
               {...register('username', { required: true })}
               type="text"
               id="username"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full pl-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               autoComplete="username"
             />
-            {errors.username && <span className="text-red-500">Username is required</span>}
+            <FaUser className="absolute left-3 top-9 text-gray-400" />
+            {errors.username && <span className="text-red-500 text-sm">Username is required</span>}
           </div>
 
-          <div>
+          <div className="relative">
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email Address
             </label>
@@ -64,13 +66,14 @@ const Signup = () => {
               {...register('email', { required: true })}
               type="email"
               id="email"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full pl-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               autoComplete="email"
             />
-            {errors.email && <span className="text-red-500">Email is required</span>}
+            <FaEnvelope className="absolute left-3 top-9 text-gray-400" />
+            {errors.email && <span className="text-red-500 text-sm">Email is required</span>}
           </div>
 
-          <div>
+          <div className="relative">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password
             </label>
@@ -78,10 +81,11 @@ const Signup = () => {
               {...register('password', { required: true })}
               type="password"
               id="password"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full pl-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               autoComplete="new-password"
             />
-            {errors.password && <span className="text-red-500">Password is required</span>}
+            <FaLock className="absolute left-3 top-9 text-gray-400" />
+            {errors.password && <span className="text-red-500 text-sm">Password is required</span>}
           </div>
 
           <div>
@@ -91,7 +95,7 @@ const Signup = () => {
             <select
               {...register('role')}
               id="role"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             >
               <option value="student">Student</option>
               <option value="admin">Admin</option>
@@ -107,7 +111,7 @@ const Signup = () => {
           </button>
         </form>
 
-        <div className="mt-4 text-center">
+        <div className="mt-6 text-center">
           <span className="text-sm text-gray-600">Already have an account?</span>{' '}
           <Link to="/login" className="text-sm text-indigo-600 hover:underline">
             Log in

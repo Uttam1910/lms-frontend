@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { loginUser } from '../redux/slice/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const Login = () => {
     try {
       const result = await dispatch(loginUser(data));
       if (result.payload && result.payload.user) {
-        if (result.payload.role === 'admin') {
+        if (result.payload.user.role === 'admin') {
           toast.success('Admin login successful');
         } else {
           toast.success('User login successful');
@@ -34,11 +35,11 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="max-w-md w-full px-6 py-8 bg-white shadow-md overflow-hidden sm:rounded-lg">
-        <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Login</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-teal-600">
+      <div className="max-w-md w-full px-8 py-10 bg-white shadow-lg rounded-lg">
+        <h2 className="text-3xl font-semibold text-center text-gray-800 mb-8">Login</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="relative">
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email Address
             </label>
@@ -46,13 +47,14 @@ const Login = () => {
               {...register('email', { required: true })}
               type="email"
               id="email"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full pl-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               autoComplete="email"
             />
-            {errors.email && <span className="text-red-500">Email is required</span>}
+            <FaEnvelope className="absolute left-3 top-9 text-gray-400" />
+            {errors.email && <span className="text-red-500 text-sm">Email is required</span>}
           </div>
 
-          <div>
+          <div className="relative">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password
             </label>
@@ -60,10 +62,11 @@ const Login = () => {
               {...register('password', { required: true })}
               type="password"
               id="password"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full pl-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               autoComplete="current-password"
             />
-            {errors.password && <span className="text-red-500">Password is required</span>}
+            <FaLock className="absolute left-3 top-9 text-gray-400" />
+            {errors.password && <span className="text-red-500 text-sm">Password is required</span>}
           </div>
 
           <div className="flex justify-between items-center">
@@ -81,7 +84,7 @@ const Login = () => {
           </button>
         </form> 
 
-        <div className="mt-4 text-center">
+        <div className="mt-6 text-center">
           <span className="text-sm text-gray-600">Don't have an account?</span>{' '}
           <Link to="/signup" className="text-sm text-indigo-600 hover:underline">
             Sign up
