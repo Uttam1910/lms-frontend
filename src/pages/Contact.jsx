@@ -74,15 +74,15 @@ const Contact = () => {
           <p className="text-gray-700 mb-8 leading-relaxed">If you have any questions, feel free to reach out to us using the form or through the contact information below:</p>
           <div className="mb-8">
             <h3 className="text-lg font-medium text-gray-800">Address:</h3>
-            <p className="text-gray-600">1234 Street Name, City, State, 56789</p>
+            <p className="text-gray-600">Bhandup West, Mumbai, Maharaashtra, 400078</p>
           </div>
           <div className="mb-8">
             <h3 className="text-lg font-medium text-gray-800">Phone:</h3>
-            <p className="text-gray-600">(123) 456-7890</p>
+            <p className="text-gray-600">(91) 7303896794</p>
           </div>
           <div className="mb-8">
             <h3 className="text-lg font-medium text-gray-800">Email:</h3>
-            <p className="text-gray-600">contact@example.com</p>
+            <p className="text-gray-600">r2464300@gmail.com</p>
           </div>
           <div className="flex space-x-6 mt-6">
             <a href="https://facebook.com" className="text-indigo-600 hover:text-indigo-800 transition duration-300">

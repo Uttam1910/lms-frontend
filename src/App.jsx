@@ -19,8 +19,10 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import ChangePassword from './pages/ChangePassword';
 
+
 function App() {
   return (
+
     <Routes>
       <Route path="/" element={<HomeLayout />}>
         <Route index element={<Home />} />
@@ -62,6 +64,7 @@ function App() {
       <Route path="#" element={<AccessDenied />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
+
   );
 }
 
