@@ -20,12 +20,13 @@ const Footer = () => {
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Company Info */}
         <div>
-          <h3 className="text-xl font-bold mb-4">Your Company</h3>
-          <p className="mb-2">1234 Street Name</p>
-          <p className="mb-2">City, State, 12345</p>
-          <p className="mb-2">Email: info@yourcompany.com</p>
-          <p>Phone: (123) 456-7890</p>
+          <h3 className="text-xl font-bold mb-4">EduMaster</h3>
+          <p className="mb-2">Gao devi road</p>
+          <p className="mb-2">Mumbai, Maharashtra, 400078</p>
+          <p className="mb-2">Email: r2464300@gmail.com</p>
+          <p>Phone: (91) 7303896794</p>
         </div>
+        
         
         {/* Quick Links */}
         <div>
