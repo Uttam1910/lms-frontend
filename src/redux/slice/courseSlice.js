@@ -1,3 +1,5 @@
+// redux/slice/courseSlice.js
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../helpers/axiosInstance';
 
@@ -70,7 +72,7 @@ const courseSlice = createSlice({
       })
       .addCase(fetchCourses.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload;
       })
       .addCase(fetchCourseById.pending, (state) => {
         state.loading = true;
@@ -81,7 +83,7 @@ const courseSlice = createSlice({
       })
       .addCase(fetchCourseById.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || action.error.message;
+        state.error = action.payload;
       })
       .addCase(createCourse.pending, (state) => {
         state.loading = true;
@@ -92,18 +94,18 @@ const courseSlice = createSlice({
       })
       .addCase(createCourse.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || action.error.message;
+        state.error = action.payload;
       })
       .addCase(deleteCourse.pending, (state) => {
         state.loading = true;
       })
       .addCase(deleteCourse.fulfilled, (state, action) => {
         state.loading = false;
-        state.courses = state.courses.filter(course => course._id !== action.meta.arg);
+        state.courses = state.courses.filter((course) => course._id !== action.meta.arg);
       })
       .addCase(deleteCourse.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || action.error.message;
+        state.error = action.payload;
       });
   },
 });
