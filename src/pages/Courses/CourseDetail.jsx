@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchCourseById } from '../../redux/slice/courseSlice';
+import { fetchCourseById, deleteCourse } from '../../redux/slice/courseSlice';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { FaUserGraduate } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
+import ConfirmationModal from '../common/ConfirmationModal.jsx';
 
 const CourseDetail = () => {
   const { courseId } = useParams();
@@ -12,6 +13,8 @@ const CourseDetail = () => {
   const dispatch = useDispatch();
   const { course, loading, error } = useSelector((state) => state.courses);
   const { user, role } = useSelector((state) => state.auth);
+
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchCourseById(courseId));
@@ -27,12 +30,27 @@ const CourseDetail = () => {
       toast.error('You need to sign up to view lectures');
       navigate('/signup');
     } else if (role === 'admin' || isEnrolled) {
-      // Navigate to lectures
       navigate(`/courses/${course._id}/lectures`);
     } else {
-      // Enroll or subscribe logic
       toast.info('Please subscribe or enroll to access lectures');
     }
+  };
+
+  const handleDeleteCourse = () => {
+    setShowModal(true);
+  };
+
+  const confirmDeleteCourse = () => {
+    dispatch(deleteCourse(course._id))
+      .unwrap()
+      .then(() => {
+        toast.success('Course deleted successfully');
+        navigate('/courses');
+      })
+      .catch((error) => {
+        toast.error(`Failed to delete course: ${error.message}`);
+      });
+    setShowModal(false);
   };
 
   return (
@@ -73,6 +91,14 @@ const CourseDetail = () => {
                   'Sign up to view lectures'
                 )}
               </button>
+              {role === 'admin' && (
+                <button
+                  onClick={handleDeleteCourse}
+                  className="flex items-center bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300"
+                >
+                  Delete Course
+                </button>
+              )}
             </div>
             <div>
               <h3 className="text-3xl font-semibold mb-4">Lectures</h3>
@@ -92,6 +118,13 @@ const CourseDetail = () => {
           </div>
         </div>
       )}
+      <ConfirmationModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={confirmDeleteCourse}
+        title="Delete Course"
+        message="Are you sure you want to delete this course? This action cannot be undone."
+      />
     </div>
   );
 };
