@@ -74,7 +74,7 @@ const Contact = () => {
           <p className="text-gray-700 mb-8 leading-relaxed">If you have any questions, feel free to reach out to us using the form or through the contact information below:</p>
           <div className="mb-8">
             <h3 className="text-lg font-medium text-gray-800">Address:</h3>
-            <p className="text-gray-600">Bhandup West, Mumbai, Maharaashtra, 400078</p>
+            <p className="text-gray-600">Bhandup West, Mumbai, Maharashtra, 400078</p>
           </div>
           <div className="mb-8">
             <h3 className="text-lg font-medium text-gray-800">Phone:</h3>
