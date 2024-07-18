@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import CourseCard from '../../src/components/CourseCard'; // Import the CourseCard component
+import { FaChalkboardTeacher, FaLaptopCode, FaCertificate, FaUsers, FaMobileAlt, FaBookOpen } from 'react-icons/fa'; // Import icons
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -29,19 +34,19 @@ const Home = () => {
             _id: '1',
             title: 'Course 1',
             description: 'Description for Course 1',
-            thumbnail: 'https://via.placeholder.com/150',
+            thumbnail: { secure_url: 'https://via.placeholder.com/150' },
           },
           {
             _id: '2',
             title: 'Course 2',
             description: 'Description for Course 2',
-            thumbnail: 'https://via.placeholder.com/150',
+            thumbnail: { secure_url: 'https://via.placeholder.com/150' },
           },
           {
             _id: '3',
             title: 'Course 3',
             description: 'Description for Course 3',
-            thumbnail: 'https://via.placeholder.com/150',
+            thumbnail: { secure_url: 'https://via.placeholder.com/150' },
           },
         ];
         setPopularCourses(mockCourses);
@@ -63,6 +68,29 @@ const Home = () => {
     navigate('/');
   };
 
+  const testimonials = [
+    { name: 'Ravi Kumar', testimonial: 'This platform has transformed my learning experience. Highly recommend!' },
+    { name: 'Aditi Sharma', testimonial: 'The courses are well-structured and the instructors are very knowledgeable.' },
+    { name: 'Rajesh Singh', testimonial: 'I love the interactive nature of the courses. It keeps me engaged.' },
+    { name: 'Priya Verma', testimonial: 'The flexibility of learning at my own pace is invaluable.' },
+    { name: 'Neha Agarwal', testimonial: 'Fantastic learning experience with great support from instructors.' },
+    { name: 'Arjun Patil', testimonial: 'The certifications have boosted my career prospects significantly.' },
+    { name: 'Kavya Rao', testimonial: 'The community support is amazing. I never feel alone in my learning journey.' },
+    { name: 'Aniket Joshi', testimonial: 'The resources provided are comprehensive and very helpful.' },
+    { name: 'Sneha Pillai', testimonial: 'Learning on the go with their mobile app is super convenient.' },
+    { name: 'Vikram Choudhary', testimonial: 'The instructors are industry experts and very approachable.' },
+  ];
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+  };
+
   return (
     <div className="space-y-16 text-white">
       <section className="bg-gradient-to-r from-gray-800 to-gray-900 py-20">
@@ -79,16 +107,34 @@ const Home = () => {
         <h2 className="text-3xl font-bold text-center mb-12 text-black">Our Features</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-gray-800 p-6 rounded-lg shadow-md text-center">
+            <FaChalkboardTeacher className="text-4xl mb-4 mx-auto text-yellow-500" />
             <h3 className="text-xl font-bold mb-4">Expert Instructors</h3>
             <p>Learn from industry experts with years of experience.</p>
           </div>
           <div className="bg-gray-800 p-6 rounded-lg shadow-md text-center">
+            <FaLaptopCode className="text-4xl mb-4 mx-auto text-blue-500" />
             <h3 className="text-xl font-bold mb-4">Interactive Courses</h3>
             <p>Engage in interactive and practical courses designed for real-world application.</p>
           </div>
           <div className="bg-gray-800 p-6 rounded-lg shadow-md text-center">
+            <FaCertificate className="text-4xl mb-4 mx-auto text-green-500" />
             <h3 className="text-xl font-bold mb-4">Certification</h3>
             <p>Receive certificates upon completion of courses to boost your career.</p>
+          </div>
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md text-center">
+            <FaUsers className="text-4xl mb-4 mx-auto text-pink-500" />
+            <h3 className="text-xl font-bold mb-4">Community Support</h3>
+            <p>Join a vibrant community of learners and educators.</p>
+          </div>
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md text-center">
+            <FaMobileAlt className="text-4xl mb-4 mx-auto text-purple-500" />
+            <h3 className="text-xl font-bold mb-4">Mobile Learning</h3>
+            <p>Access our courses on the go, anytime and anywhere.</p>
+          </div>
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md text-center">
+            <FaBookOpen className="text-4xl mb-4 mx-auto text-red-500" />
+            <h3 className="text-xl font-bold mb-4">Extensive Resources</h3>
+            <p>Utilize a wide range of resources to enhance your learning.</p>
           </div>
         </div>
       </section>
@@ -99,19 +145,7 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {popularCourses.length > 0 ? (
               popularCourses.map(course => (
-                <div
-                  key={course._id}
-                  className="bg-gray-800 p-6 rounded-lg shadow-md cursor-pointer"
-                  onClick={() => navigate(`/course/${course._id}`)}
-                >
-                  <img
-                    src={course.thumbnail || 'https://via.placeholder.com/150'}
-                    alt={course.title}
-                    className="w-full h-48 object-cover rounded-lg mb-4"
-                  />
-                  <h3 className="text-xl font-bold mb-4 text-white">{course.title}</h3>
-                  <p className="text-white">{course.description}</p>
-                </div>
+                <CourseCard key={course._id} course={course} /> // Use CourseCard component
               ))
             ) : (
               <p className="text-center text-white">No courses available.</p>
@@ -127,33 +161,36 @@ const Home = () => {
 
       <section className="container mx-auto py-16">
         <h2 className="text-3xl font-bold text-center mb-12 text-black">What Our Students Say</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
-            <p className="mb-4">"This platform has transformed my learning experience. Highly recommend!"</p>
-            <p className="text-right font-bold">- Student A</p>
-          </div>
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
-            <p className="mb-4">"The courses are well-structured and the instructors are very knowledgeable."</p>
-            <p className="text-right font-bold">- Student B</p>
-          </div>
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
-            <p className="mb-4">"I love the interactive nature of the courses. It keeps me engaged."</p>
-            <p className="text-right font-bold">- Student C</p>
-          </div>
-        </div>
+        <Slider {...settings}>
+          {testimonials.map((testimonial, index) => (
+            <div key={index} className="p-6">
+              <div className="bg-gray-800 p-6 rounded-lg shadow-md text-center">
+                <p className="mb-4">"{testimonial.testimonial}"</p>
+                <p className="text-right font-bold">- {testimonial.name}</p>
+              </div>
+            </div>
+          ))}
+        </Slider>
       </section>
 
       <section className="bg-gradient-to-r from-gray-900 to-gray-800 py-20">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Start Learning?</h2>
-          <p className="text-lg mb-8">Join thousands of students and begin your educational journey with us.</p>
-          {!isAuthenticated ? (
-            <button className="btn btn-primary" onClick={() => navigate('/signup')}>Sign Up Now</button>
-          ) : (
-            <button className="btn btn-secondary" onClick={handleLogout}>Logout</button>
-          )}
-        </div>
-      </section>
+  <div className="container mx-auto text-center">
+    <h2 className="text-4xl font-extrabold mb-4 text-white">Ready to Start Your Journey?</h2>
+    <p className="text-xl mb-8 text-gray-300">Join us today and unlock your potential.</p>
+    <button 
+      className="btn btn-primary hover:bg-yellow-500 hover:text-gray-900 transition-all duration-300 transform hover:scale-105" 
+      onClick={() => navigate('/signup')}
+    >
+      Get Started
+    </button>
+    <div className="mt-8 flex justify-center space-x-4">
+      <div className="p-4 bg-yellow-500 rounded-full animate-bounce"></div>
+      <div className="p-4 bg-yellow-500 rounded-full animate-bounce delay-200"></div>
+      <div className="p-4 bg-yellow-500 rounded-full animate-bounce delay-400"></div>
+    </div>
+  </div>
+</section>
+
     </div>
   );
 };
