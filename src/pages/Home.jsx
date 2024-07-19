@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import CourseCard from '../../src/components/CourseCard'; // Import the CourseCard component
 import { FaChalkboardTeacher, FaLaptopCode, FaCertificate, FaUsers, FaMobileAlt, FaBookOpen } from 'react-icons/fa'; // Import icons
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { logoutUser, logout } from '../redux/slice/authSlice';
 
 const Home = () => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const dispatch = useDispatch();
   const [popularCourses, setPopularCourses] = useState([]);
 
   useEffect(() => {
-    const authStatus = localStorage.getItem('isAuthenticated') === 'true';
-    setIsAuthenticated(authStatus);
-
     const fetchPopularCourses = async () => {
       try {
         const response = await axios.get('/api/courses');
@@ -56,15 +56,9 @@ const Home = () => {
     fetchPopularCourses();
   }, []);
 
-  const handleLogin = () => {
-    localStorage.setItem('isAuthenticated', 'true');
-    setIsAuthenticated(true);
-    navigate('/dashboard');
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('isAuthenticated');
-    setIsAuthenticated(false);
+  const handleLogout = async () => {
+    await dispatch(logoutUser());
+    dispatch(logout());
     navigate('/');
   };
 
@@ -97,8 +91,13 @@ const Home = () => {
         <div className="container mx-auto text-center">
           <h1 className="text-5xl font-bold mb-4">Welcome to Our Learning Management System</h1>
           <p className="text-xl mb-8">Your gateway to world-class education and training.</p>
-          {!isAuthenticated && (
+          {!isLoggedIn ? (
             <button className="btn btn-primary" onClick={() => navigate('/signup')}>Get Started</button>
+          ) : (
+            <div>
+              <button className="btn btn-primary mr-4" onClick={() => navigate('/dashboard')}>Go to Dashboard</button>
+              <button className="btn btn-secondary" onClick={handleLogout}>Logout</button>
+            </div>
           )}
         </div>
       </section>
@@ -166,30 +165,27 @@ const Home = () => {
             <div key={index} className="p-6">
               <div className="bg-gray-800 p-6 rounded-lg shadow-md text-center">
                 <p className="mb-4">"{testimonial.testimonial}"</p>
-                <p className="text-right font-bold">- {testimonial.name}</p>
+                <p className="font-bold">- {testimonial.name}</p>
               </div>
             </div>
           ))}
         </Slider>
       </section>
 
-      <section className="bg-gradient-to-r from-gray-900 to-gray-800 py-20">
-  <div className="container mx-auto text-center">
-    <h2 className="text-4xl font-extrabold mb-4 text-white">Ready to Start Your Journey?</h2>
-    <p className="text-xl mb-8 text-gray-300">Join us today and unlock your potential.</p>
-    <button 
-      className="btn btn-primary hover:bg-yellow-500 hover:text-gray-900 transition-all duration-300 transform hover:scale-105" 
-      onClick={() => navigate('/signup')}
-    >
-      Get Started
-    </button>
-    <div className="mt-8 flex justify-center space-x-4">
-      <div className="p-4 bg-yellow-500 rounded-full animate-bounce"></div>
-      <div className="p-4 bg-yellow-500 rounded-full animate-bounce delay-200"></div>
-      <div className="p-4 bg-yellow-500 rounded-full animate-bounce delay-400"></div>
-    </div>
-  </div>
-</section>
+      <section className="bg-gray-900 py-16 text-white text-center">
+        <div className="container mx-auto">
+          <h2 className="text-3xl font-bold mb-4">Join Us Today</h2>
+          <p className="text-xl mb-8">Become a part of our thriving community of learners.</p>
+          {!isLoggedIn ? (
+            <button className="btn btn-primary" onClick={() => navigate('/signup')}>Get Started</button>
+          ) : (
+            <div>
+              <button className="btn btn-primary mr-4" onClick={() => navigate('/dashboard')}>Go to Dashboard</button>
+              <button className="btn btn-secondary" onClick={handleLogout}>Logout</button>
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 };
