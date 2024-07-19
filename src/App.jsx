@@ -18,6 +18,9 @@ import ProfileUpdate from './pages/Profile/ProfileUpdate'; // Corrected import p
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import ChangePassword from './pages/ChangePassword';
+import TermsConditions from './pages/legal/TermsAndConditions';
+import PrivacyPolicy from './pages/legal/PrivacyPolicy';
+import RefundsCancellations from './pages/legal/RefundsCancellations';
 
 
 function App() {
@@ -59,7 +62,9 @@ function App() {
             <ProfileUpdate />
           </RequireAuth>
         } />
-
+        <Route path="/terms-conditions" element={<TermsConditions />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/refunds-cancellations" element={<RefundsCancellations />} />
       </Route>
       <Route path="#" element={<AccessDenied />} />
       <Route path="*" element={<NotFound />} />
